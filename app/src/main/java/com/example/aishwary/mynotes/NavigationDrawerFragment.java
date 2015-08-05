@@ -68,12 +68,27 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
 
             public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
+                AppSharedPreferences.setUserLearned(getActivity(),
+                        AppConstant.KEY_USER_LEARNED_DRAWER, AppConstant.TRUE);
             }
 
         };
-    }
 
+        if(!mUserLearnedDrawer && !mFromSavedInstanceState){
+            mDrawerLayout.openDrawer(containerView);
+        }
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerToggle.syncState();
+            }
+        });
+    }
+     public void closeDrawer(){
+         mDrawerLayout.closeDrawers();
+     }
 
 }
 
